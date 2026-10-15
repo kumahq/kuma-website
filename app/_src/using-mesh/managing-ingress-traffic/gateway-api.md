@@ -24,7 +24,7 @@ Checkout our dedicated installation [guide](/docs/{{ page.release }}/guides/gate
 {{ site.mesh_product_name }}'s [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) implementation is beta.
 {% endwarning %}
 {% warning %}
-Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners).
+Gateway API [`Gateways`](https://gateway-api.sigs.k8s.io/reference/api-types/gateway/) aren't supported in multi-zone. To use the builtin Gateway, you need to use the [`MeshGateway` resources](/docs/{{ page.release }}/using-mesh/managing-ingress-traffic/builtin-listeners).
 {% endwarning %}
 
 1. Install the Gateway API CRDs.
@@ -41,10 +41,14 @@ Kubernetes doesn't include Gateway API CRDs, [install them from the standard cha
 {% endif_version %}
 
 {% if_version lte:2.2.x %}
+
 ## Usage
+
 {% endif_version %}
 {% if_version gte:2.3.x %}
+
 ## Gateways
+
 {% endif_version %}
 
 1. Install the [counter demo](https://github.com/kumahq/kuma-counter-demo).
@@ -53,11 +57,11 @@ Kubernetes doesn't include Gateway API CRDs, [install them from the standard cha
    kumactl install demo --without-gateway | kubectl apply -f -
    ```
 
-2. Add a [`Gateway`](https://gateway-api.sigs.k8s.io/api-types/gateway/).
+2. Add a [`Gateway`](https://gateway-api.sigs.k8s.io/reference/api-types/gateway/).
 
    The `Gateway` resource represents the proxy instance that handles traffic for a set of Gateway API routes.
 
-   Every `Gateway` refers to a [`GatewayClass`](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/).
+   Every `Gateway` refers to a [`GatewayClass`](https://gateway-api.sigs.k8s.io/reference/api-types/gatewayclass/).
    The `GatewayClass` represents the class of `Gateway`, in this case {{site.mesh_product_name}}'s builtin edge
    gateway, and points to a controller that should manage these `Gateways`. It can also hold
    [additional configuration](#customization).
@@ -83,6 +87,7 @@ metadata:
 spec:
   controllerName: gateways.kuma.io/controller
 ```
+
 {% endtab %}
 {% endtabs %}
 {% endcapture %}
@@ -102,34 +107,34 @@ spec:
        port: 8080
        protocol: HTTP
    ```
-   
+
    When a user applies a `Gateway` resource, {{site.mesh_product_name}} automatically creates a `Deployment` of built-in gateways with a corresponding `Service`.
-   
+
    ```sh
    kubectl get pods -n kuma-demo
    ```
-   
-   ```
+
+   ```text
    NAME                          READY   STATUS    RESTARTS   AGE
    redis-59c9d56fc-6gcbc         2/2     Running   0          2m8s
    demo-app-5845d6447b-v7npw     2/2     Running   0          2m8s
    kuma-4j6wr-58998b5576-25wl6   1/1     Running   0          30s
    ```
-   
+
    ```sh
    kubectl get svc -n kuma-demo
    ```
-   
-   ```
+
+   ```text
    NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
    redis        ClusterIP      10.43.223.223   <none>        6379/TCP         3m27s
    demo-app     ClusterIP      10.43.216.203   <none>        5000/TCP         3m27s
    kuma-pfh4s   LoadBalancer   10.43.122.93    172.20.0.3    8080:30627/TCP   87s
    ```
-   
+
    The `Gateway` is now accessible using the external address `172.20.0.3:8080`.
 
-3. Add an [`HTTPRoute`](https://gateway-api.sigs.k8s.io/api-types/httproute/).
+1. Add an [`HTTPRoute`](https://gateway-api.sigs.k8s.io/reference/api-types/httproute/).
 
    `HTTPRoute` resources contain a set of matching criteria for HTTP requests and upstream `Services` to route those requests to.
 
@@ -163,7 +168,7 @@ spec:
    curl 172.20.0.3:8080/ -i
    ```
 
-   ```
+   ```text
    HTTP/1.1 200 OK
    x-powered-by: Express
    accept-ranges: bytes
@@ -221,6 +226,7 @@ Under the hood, {{site.mesh_product_name}} CP copies the `Secret` to `{{site.mes
 It tracks all the changes to the secret and deletes it upon deletion of the original secret.
 
 {% endif_version %}
+
 ### Customization
 
 Gateway API provides the `parametersRef` field on `GatewayClass.spec`
@@ -415,25 +421,25 @@ The Gateway API supports multi-zone deployments, but with some limitations:
 
    To better visualize this limitation here's an example scenario that describes how you could configure multi-zone deployments with the Gateway API. In this example, you have the following resources:
 
-   - Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
+  - Two zones (`zone-1` and `zone-2`) in separate Kubernetes clusters
 
-   - Gateway with listener on port `8080` deployed in `zone-1`
+  - Gateway with listener on port `8080` deployed in `zone-1`
 
-   - Two services:
+  - Two services:
 
-      - A service named `backend` deployed in each zone 
+    - A service named `backend` deployed in each zone
 
-      - A service named `db` deployed only in `zone-2`
+    - A service named `db` deployed only in `zone-2`
 
    {{ backendref-limitation-environment | indent }}
 
    If you deploy multi-zone with Gateway API, the following will occur:
 
-   - If you create an `HTTPRoute` with a `backendRef` targeting the `backend` service in `k8s-cluster-1`, it will only route traffic to the `backend` service in `k8s-cluster-1`.
-     
+  - If you create an `HTTPRoute` with a `backendRef` targeting the `backend` service in `k8s-cluster-1`, it will only route traffic to the `backend` service in `k8s-cluster-1`.
+
      {{ gapi_multizone_limitation_1 | indent }}
 
-   - Similarly, if you create an `HTTPRoute` with a `backendRef` pointing to the `db` service in `k8s-cluster-1`, it will result in a `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `k8s-cluster-1`.
+  - Similarly, if you create an `HTTPRoute` with a `backendRef` pointing to the `db` service in `k8s-cluster-1`, it will result in a `HTTPRoute` with a `ResolvedRefs` status condition of `BackendNotFound` because service `db` is not present in `k8s-cluster-1`.
 
      {{ gapi_multizone_limitation_2 | indent }}
 

@@ -13,10 +13,10 @@ You can add metrics to a mesh configuration, or to an individual data plane prox
 
 {{site.mesh_product_name}} provides full integration with Prometheus:
 
-* Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format).
+* Each proxy can expose its metrics in [Prometheus format](https://prometheus.io/docs/instrumenting/exposition_formats/#prometheus-text-format).
 * Because metrics are part of the mesh configuration, {{site.mesh_product_name}} exposes an API called the monitoring assignment service (MADS) which exposes every proxy in the mesh.
 
-To collect metrics from {{site.mesh_product_name}}, you need to expose metrics from proxies and applications. 
+To collect metrics from {{site.mesh_product_name}}, you need to expose metrics from proxies and applications.
 
 {% tip %}
 In the rest of this page we assume you have already configured your observability tools to work with {{site.mesh_product_name}}.
@@ -26,7 +26,6 @@ If you haven't already read the [observability docs](/docs/{{ page.release }}/ex
 ## Expose metrics from data plane proxies
 
 To expose metrics from every proxy in the mesh, configure the `Mesh` resource:
-
 
 {% tabs %}
 {% tab Kubernetes %}
@@ -47,6 +46,7 @@ spec:
 which is a shortcut for:
 
 {% if_version lte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -65,8 +65,10 @@ spec:
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
           kuma.io/service: dataplane-metrics
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -86,12 +88,14 @@ spec:
         tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
           kuma.io/service: dataplane-metrics
 ```
+
 {% endif_version %}
 
 {% endtab %}
 {% tab Universal %}
 
 {% if_version lte:2.3.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -101,8 +105,10 @@ metrics:
   - name: prometheus-1
     type: prometheus
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -112,10 +118,12 @@ metrics:
   - name: prometheus-1
     type: prometheus
 ```
+
 {% endif_version %}
 which is a shortcut for:
 
 {% if_version lte:2.3.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -131,8 +139,10 @@ metrics:
       tags: # tags that can be referred in Traffic Permission when metrics are secured by mTLS  
         kuma.io/service: dataplane-metrics
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -149,6 +159,7 @@ metrics:
       tls:
         mode: activeMTLSBackend
 ```
+
 {% endif_version %}
 {% endtab %}
 {% endtabs %}
@@ -160,6 +171,7 @@ You can pass the `filter` query parameter to limit the results to metrics whose 
 By default all available metrics are returned.
 
 {% if_version gte:2.4.x %}
+
 ### Secure metrics with TLS
 
 {{site.mesh_product_name}} allows configuring metrics endpoint with TLS. You can use it when the `Prometheus` deployment is outside of the mesh and requires secure communication.
@@ -184,6 +196,7 @@ spec:
         tls:
           mode: providedTLS
 ```
+
 In addition to the `Mesh` configuration, `kuma-sidecar` requires a provided certificate and key for its operation. When the certificate and key are available within the container, `kuma-sidecar` needs the paths to provided files as the following environment variables:
 
 * KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
@@ -233,8 +246,8 @@ metrics:
 
 In addition to the `Mesh` configuration, `kuma-dp` requires a provided certificate and key for its operation. Please upload the certificate and the key to the machine, and then define the following environment variables with the correct paths:
 
-	* KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
-	* KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
+* KUMA_DATAPLANE_RUNTIME_METRICS_CERT_PATH
+* KUMA_DATAPLANE_RUNTIME_METRICS_KEY_PATH
 
 {% endtab %}
 {% endtabs %}
@@ -242,16 +255,16 @@ In addition to the `Mesh` configuration, `kuma-dp` requires a provided certifica
 {% endif_version %}
 
 ## Expose metrics from applications
- 
+
 In addition to exposing metrics from the data plane proxies, you might want to expose metrics from applications running next to the proxies. {{site.mesh_product_name}} allows scraping Prometheus metrics from the applications endpoint running in the same `Pod` or `VM`.
 Later those metrics are aggregated and exposed at the same `port/path` as data plane proxy metrics.
 It is possible to configure it at the `Mesh` level, for all the applications in the `Mesh`, or just for specific applications.
 
 Here are reasons where you'd want to use this feature:
 
-- Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
-- Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
-- If you disable [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh {% if_version lte:2.3.x %}(`skipMTLS: true`){% endif_version %}{% if_version gte:2.4.x %}(`tls.mode: disabled`){% endif_version %} this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
+* Application metrics are labelled with your mesh parameters (tags, mesh, data plane name...), this means that in mixed Universal and Kubernetes mode metrics are reported with the same types of labels.
+* Both application and sidecar metrics are scraped at the same time. This makes sure they are coherent (with 2 different scrapers they can end up scraping at different intervals and make metrics harder to correlate).
+* If you disable [passthrough](/docs/{{ page.release }}/networking/non-mesh-traffic#outgoing) and your mesh uses mTLS but Prometheus is outside the mesh {% if_version lte:2.3.x %}(`skipMTLS: true`){% endif_version %}{% if_version gte:2.4.x %}(`tls.mode: disabled`){% endif_version %} this is the only way to retrieve these metrics as the app is completely hidden behind the sidecar.
 
 {% warning %}
 Any configuration change requires redeployment of the data plane.
@@ -260,6 +273,7 @@ Any configuration change requires redeployment of the data plane.
 {% tabs %}
 {% tab Kubernetes %}
 {% if_version lte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -285,8 +299,10 @@ spec:
             # default path is going to be used, default: /metrics
             port: 8000
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -313,10 +329,12 @@ spec:
             # default path is going to be used, default: /metrics
             port: 8000
 ```
+
 {% endif_version %}
 {% endtab %}
 {% tab Universal %}
 {% if_version lte:2.3.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -337,8 +355,10 @@ metrics:
         # default path is going to be used, default: /metrics
         port: 8000
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -360,6 +380,7 @@ metrics:
         # default path is going to be used, default: /metrics
         port: 8000
 ```
+
 {% endif_version %}
 {% endtab %}
 {% endtabs %}
@@ -369,6 +390,7 @@ This configuration will cause every application in the mesh to be scrapped for m
 {% tabs %}
 {% tab Kubernetes %}
 Kubernetes allows to configure it through annotations. In case to configure you can use `prometheus.metrics.kuma.io/aggregate-<name>-(path/port/enabled)`, where name is used to match the `Mesh` configuration and override or disable it.
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -389,8 +411,10 @@ spec:
      containers:
      ...
 ```
+
 {% endtab %}
 {% tab Universal %}
+
 ```yaml
 type: Dataplane
 mesh: default
@@ -422,6 +446,7 @@ By default, sidecar scrapes metrics on `dataplane.networking.address`. If you se
 {% tabs %}
 {% tab Kubernetes %}
 To override mesh-wide defaults for a particular `Pod`, use the following annotations:
+
 * `prometheus.metrics.kuma.io/port` - to override mesh-wide default port
 * `prometheus.metrics.kuma.io/path` - to override mesh-wide default path
 
@@ -453,6 +478,7 @@ Proxies for this Pod expose an HTTP endpoint with Prometheus metrics on port `12
 To override mesh-wide defaults on a particular machine, configure the `Dataplane` resource:
 
 {% if_version lte:2.3.x %}
+
 ```yaml
 type: Dataplane
 mesh: default
@@ -464,8 +490,10 @@ metrics:
     port: 1234
     path: /non-standard-path
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 type: Dataplane
 mesh: default
@@ -478,6 +506,7 @@ metrics:
     port: 1234
     path: /non-standard-path
 ```
+
 {% endif_version %}
 This proxy exposes an HTTP endpoint with Prometheus metrics on port `1234` and URI path `/non-standard-path`.
 {% endtab %}
@@ -490,6 +519,7 @@ In case you don't want to retrieve all Envoy's metrics, it's possible to filter 
 {% tabs %}
 {% tab Kubernetes %}
 {% if_version lte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -509,8 +539,10 @@ spec:
           filterRegex: http2_act.*
           usedOnly: true
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -531,9 +563,11 @@ spec:
           filterRegex: http2_act.*
           usedOnly: true
 ```
+
 {% endif_version %}
 {% endtab %}
 {% tab Universal %}
+
 ```yaml
 type: Mesh
 name: default
@@ -549,6 +583,7 @@ metrics:
         filterRegex: http2_act.*
         usedOnly: true
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -560,6 +595,7 @@ metrics:
 {% tab Kubernetes %}
 Make sure that mTLS is enabled in the mesh.
 {% if_version lte:2.3.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -583,8 +619,10 @@ spec:
         tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
@@ -609,6 +647,7 @@ spec:
         tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
+
 {% endif_version %}
 
 If you have strict [traffic permissions](/docs/{{ page.release }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
@@ -640,10 +679,12 @@ spec:
    - match:
       kuma.io/service: "prometheus-server_mesh-observability_svc_80"
 ```
+
 {% endtab %}
 {% tab Universal %}
 Make sure that mTLS is enabled in the mesh.
 {% if_version lte:2.3.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -665,8 +706,10 @@ spec:
         tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
+
 {% endif_version %}
 {% if_version gte:2.4.x %}
+
 ```yaml
 type: Mesh
 name: default
@@ -689,6 +732,7 @@ spec:
         tags: # tags that can be referred in a TrafficPermission resource 
           kuma.io/service: dataplane-metrics
 ```
+
 {% endif_version %}
 
 If you have strict [traffic permissions](/docs/{{ page.release }}/policies/traffic-permissions) you will want to allow the traffic from Grafana to Prometheus and from Prometheus to data plane proxy metrics:
@@ -716,5 +760,6 @@ spec:
    - match:
       kuma.io/service: "prometheus-server"
 ```
+
 {% endtab %}
 {% endtabs %}
