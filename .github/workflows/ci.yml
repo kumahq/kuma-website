@@ -6,7 +6,7 @@ on: pull_request
 jobs:
   check-links:
     name: Check links
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     env:
       URL: https://deploy-preview-${{github.event.number}}--kuma.netlify.app
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,7 +36,7 @@ jobs:
 
   installer-sh:
     name: Test installer.sh
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     env:
       GH_TOKEN: ${{ github.token }}
     strategy:
@@ -98,7 +98,7 @@ jobs:
           rm -rf ./kuma-*/ 
           echo ${VERSION}
   installer-sh-arm64:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     name: Test installer.sh on arm64
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -123,7 +123,7 @@ jobs:
 
   installer-sh-mesh:
     name: Test installer.sh for Kong Mesh
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Prepare OS
         run: |
@@ -139,7 +139,7 @@ jobs:
 
   vale:
     name: Lint docs
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Get changed files
         id: changed-files
@@ -176,7 +176,7 @@ jobs:
 
   version-urls:
     name: Check version URLs
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -193,7 +193,7 @@ jobs:
 
   frontmatter:
     name: Validate frontmatter
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -210,7 +210,7 @@ jobs:
 
   markdownlint:
     name: Lint markdown
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
