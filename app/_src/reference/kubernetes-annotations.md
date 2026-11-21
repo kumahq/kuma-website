@@ -722,6 +722,22 @@ metadata:
 spec: ...
 ```
 
+### `prometheus.metrics.kuma.io/aggregate-<name>-address`
+
+Define the address, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  annotations:
+    prometheus.metrics.kuma.io/aggregate-app-address: "127.0.0.1"
+spec: ...
+```
+
 ### `prometheus.metrics.kuma.io/aggregate-<name>-port`
 
 Define port, which `kuma-dp` sidecar has to scrape for prometheus metrics. For more details see the [applications metrics docs](/docs/{{ page.release }}/policies/traffic-metrics#expose-metrics-from-applications)
